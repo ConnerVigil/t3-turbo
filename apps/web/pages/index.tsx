@@ -1,36 +1,42 @@
 import { useState } from "react";
 import { trpc } from "../util/trpc";
+import { Grid, List, ListItem, Typography } from "@mui/material";
+import Post from "./post";
 
 function Posts(): JSX.Element {
   const mutation = trpc.addPost.useMutation();
-  const query = trpc.postList.useQuery();
+  const query = trpc.getAll.useQuery();
+  const deleteMutation = trpc.deletePost.useMutation();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handlePost = (): void => {
-    mutation.mutate({
-      title,
-      content,
-    });
+  const handleDelete = async (id: string): Promise<void> => {
+    try {
+      await deleteMutation.mutateAsync({ id: id });
+      query.refetch();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
+  const handleAddPost = async () => {
+    try {
+      await mutation.mutateAsync({
+        title,
+        content,
+      });
+      query.refetch();
+    } catch (error) {
+      console.error("Error adding post:", error);
+    }
   };
 
   const posts = query.data ?? [];
 
   return (
     <div>
-      {posts.length > 0 ? (
-        posts.map((post) => (
-          <div key={post.id}>
-            <h2>{post.title}</h2>
-            <p>Likes: {post.likes}</p>
-            <p>{post.content}</p>
-          </div>
-        ))
-      ) : (
-        <p>No posts found.</p>
-      )}
-      <form onSubmit={handlePost}>
+      <form onSubmit={handleAddPost}>
         <input
           id="post-title"
           onChange={(v) => {
@@ -49,6 +55,17 @@ function Posts(): JSX.Element {
         />
         <button type="submit">Submit</button>
       </form>
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <ListItem key={post.id}>
+              <Post key={post.id} post={post} handleDelete={handleDelete} />
+            </ListItem>
+          ))
+        ) : (
+          <p>No posts found.</p>
+        )}
+      </List>
     </div>
   );
 }
