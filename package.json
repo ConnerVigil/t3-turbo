@@ -8,14 +8,14 @@
     "db:generate": "turbo run db:generate",
     "db:studio": "turbo run db:studio",
     "db:push": "turbo run db:push",
-    "withenv": "dotenv-cli -e ../../.env --",
-    "postinstall": "Prisma generate"
+    "withenv": "dotenv-cli -e ../../.env --"
   },
   "devDependencies": {
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
     "tsconfig": "workspace:*",
-    "turbo": "latest"
+    "turbo": "latest",
+    "postinstall": "Prisma generate"
   },
   "packageManager": "pnpm@8.6.10",
   "name": "my-app"
