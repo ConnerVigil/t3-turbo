@@ -1,77 +1,85 @@
 import { useState } from "react";
-import { List, ListItem } from "@mui/material";
+import { List, ListItem, Typography } from "@mui/material";
 import { trpc } from "../util/trpc";
-import Post from "./post";
+import User from "./user";
 
-function Posts(): JSX.Element {
-  const mutation = trpc.addPost.useMutation();
-  const query = trpc.getAll.useQuery();
-  const deleteMutation = trpc.deletePost.useMutation();
+function Index(): JSX.Element {
+  const addMutation = trpc.user.addUser.useMutation();
+  const userQuery = trpc.user.getAll.useQuery();
+  const deleteMutation = trpc.user.deleteUser.useMutation();
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleDelete = async (id: string): Promise<void> => {
+  const handleDeleteUser = async (id: string): Promise<void> => {
     try {
       await deleteMutation.mutateAsync({ id });
-      void query.refetch();
+      void userQuery.refetch();
     } catch (error) {
-      console.error("Error deleting post:", error);
+      console.error("Error deleting user:", error);
     }
   };
 
-  const handleAddPost = async (): Promise<void> => {
+  const handleAddUser = async (): Promise<void> => {
     try {
-      await mutation.mutateAsync({
-        title,
-        content,
+      console.log("Adding user...");
+      await addMutation.mutateAsync({
+        name,
+        email,
+        password,
       });
-      void query.refetch();
+      void userQuery.refetch();
     } catch (error) {
-      console.error("Error adding post:", error);
+      console.error("Error adding user:", error);
     }
   };
 
-  const posts = query.data ?? [];
+  const users = userQuery.data ?? [];
 
   return (
     <div>
-      <form onSubmit={() => handleAddPost}>
+      <Typography variant="h1">Users</Typography>
+      <form onSubmit={handleAddUser}>
         <input
-          id="post-title"
+          id="user-name"
           onChange={(v) => {
-            setTitle(v.target.value);
+            setName(v.target.value);
           }}
-          placeholder="Title"
-          value={title}
+          placeholder="Name"
+          value={name}
         />
         <input
-          id="post-content"
+          id="user-email"
           onChange={(v) => {
-            setContent(v.target.value);
+            setEmail(v.target.value);
           }}
-          placeholder="Content"
-          value={content}
+          placeholder="Email"
+          value={email}
+        />
+        <input
+          id="user-password"
+          onChange={(v) => {
+            setPassword(v.target.value);
+          }}
+          placeholder="Password"
+          value={password}
         />
         <button type="submit">Submit</button>
       </form>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {posts.length > 0 ? (
-          posts.map((post) => (
-            <ListItem key={post.id}>
-              <Post
-                handleDelete={() => handleDelete}
-                key={post.id}
-                post={post}
-              />
+        {users.length > 0 ? (
+          users.map((user) => (
+            <ListItem key={user.id}>
+              <User handleDelete={handleDeleteUser} user={user} />
             </ListItem>
           ))
         ) : (
-          <p>No posts found.</p>
+          <p>No users found.</p>
         )}
       </List>
     </div>
   );
 }
 
-export default Posts;
+export default Index;

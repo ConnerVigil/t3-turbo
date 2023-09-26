@@ -8,9 +8,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+model User {
+  id          String @id @default(cuid())
+  email       String @unique
+  name        String
+  password    String
+  folders     Folder[]
+  properties  Property[]
+}
+
+model Folder {
   id      String @id @default(cuid())
-  title   String
-  content String
-  likes   Int    @default(0)
+  name    String
+  userId  String
+  user    User @relation(fields: [userId], references: [id])
+  file    File[]
+}
+
+model File {
+  id        String @id @default(cuid())
+  name      String
+  url       String
+  folderId  String
+  folder    Folder @relation(fields: [folderId], references: [id])
+}
+
+model Property {
+  id      String @id @default(cuid())
+  address String
+  city    String
+  state   String
+  zip     String
+  photos  Photo[]
+  userId  String
+  user    User @relation(fields: [userId], references: [id])
+}
+
+model Photo {
+  id          String @id @default(cuid())
+  filename    String
+  description String?
+  imageData   Bytes
+  propertyId  String
+  property    Property @relation(fields: [propertyId], references: [id])
 }
