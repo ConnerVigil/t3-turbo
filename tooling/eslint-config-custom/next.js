@@ -39,5 +39,6 @@ module.exports = {
   rules: {
     "import/no-default-export": "off",
     "no-console": "off",
+    "sort-imports": "off",
   },
 };
