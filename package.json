@@ -8,7 +8,8 @@
     "db:generate": "turbo run db:generate",
     "db:studio": "turbo run db:studio",
     "db:push": "turbo run db:push",
-    "prebuild": "pnpm run db:generate"
+    "prebuild": "pnpm run db:generate",
+    "postinstall": "prisma generate"
   },
   "devDependencies": {
     "eslint": "^8.48.0",
