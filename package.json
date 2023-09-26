@@ -9,7 +9,7 @@
     "db:studio": "turbo run db:studio",
     "db:push": "turbo run db:push",
     "withenv": "dotenv-cli -e ../../.env --",
-    "postinstall": "db:generate"
+    "postinstall": "turbo db:generate"
   },
   "devDependencies": {
     "eslint": "^8.48.0",
