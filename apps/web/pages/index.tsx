@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { trpc } from "../util/trpc";
-import { Grid, List, ListItem } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 import Post from "./post";
 
 function Posts(): JSX.Element {
