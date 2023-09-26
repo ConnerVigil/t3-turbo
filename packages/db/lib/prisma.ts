@@ -1,5 +1,5 @@
 // eslint-disable-next-line -- need to import the generated code
-import { PrismaClient } from "./generated/client";
+import { PrismaClient } from "@db/lib/generated/client";
 
 const globalForPrisma: { prisma?: PrismaClient } = global as unknown as {
   prisma: PrismaClient;
