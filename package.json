@@ -17,5 +17,5 @@
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.6.10",
-  "name": "my-app"
+  "name": "t3-turbo-app"
 }
