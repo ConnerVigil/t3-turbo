@@ -11,10 +11,10 @@ interface PostProps {
   handleDelete: (id: string) => void;
 }
 
-const Post = ({ post, handleDelete }: PostProps) => {
+function Post({ post, handleDelete }: PostProps): JSX.Element {
   return (
     <Box>
-      <Stack direction={"row"} gap={2}>
+      <Stack direction="row" gap={2}>
         <h2>{post.title}</h2>
       </Stack>
       <Typography variant="caption">{post.content}</Typography>
@@ -29,6 +29,6 @@ const Post = ({ post, handleDelete }: PostProps) => {
       </button>
     </Box>
   );
-};
+}
 
 export default Post;

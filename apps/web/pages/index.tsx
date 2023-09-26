@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { trpc } from "../util/trpc";
 import { List, ListItem } from "@mui/material";
+import { trpc } from "../util/trpc";
 import Post from "./post";
 
 function Posts(): JSX.Element {
@@ -13,20 +13,20 @@ function Posts(): JSX.Element {
 
   const handleDelete = async (id: string): Promise<void> => {
     try {
-      await deleteMutation.mutateAsync({ id: id });
-      query.refetch();
+      await deleteMutation.mutateAsync({ id });
+      void query.refetch();
     } catch (error) {
       console.error("Error deleting post:", error);
     }
   };
 
-  const handleAddPost = async () => {
+  const handleAddPost = async (): Promise<void> => {
     try {
       await mutation.mutateAsync({
         title,
         content,
       });
-      query.refetch();
+      void query.refetch();
     } catch (error) {
       console.error("Error adding post:", error);
     }
@@ -36,7 +36,7 @@ function Posts(): JSX.Element {
 
   return (
     <div>
-      <form onSubmit={handleAddPost}>
+      <form onSubmit={() => handleAddPost}>
         <input
           id="post-title"
           onChange={(v) => {
@@ -59,7 +59,11 @@ function Posts(): JSX.Element {
         {posts.length > 0 ? (
           posts.map((post) => (
             <ListItem key={post.id}>
-              <Post key={post.id} post={post} handleDelete={handleDelete} />
+              <Post
+                handleDelete={() => handleDelete}
+                key={post.id}
+                post={post}
+              />
             </ListItem>
           ))
         ) : (

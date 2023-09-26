@@ -19,7 +19,7 @@ export const appRouter = router({
     const { id } = opts.input;
     return prisma.post.findUnique({
       where: {
-        id: id,
+        id,
       },
     });
   }),
@@ -49,7 +49,7 @@ export const appRouter = router({
       const { id, title, content } = opts.input;
       const post = await prisma.post.update({
         where: {
-          id: id,
+          id,
         },
         data: {
           title,
@@ -69,7 +69,7 @@ export const appRouter = router({
       const { id } = opts.input;
       const post = await prisma.post.delete({
         where: {
-          id: id,
+          id,
         },
       });
 
