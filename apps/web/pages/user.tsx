@@ -1,13 +1,9 @@
+import { User } from "@db/lib/generated/client";
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 
 interface UserProps {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-  };
+  user: User;
   handleDelete: (id: string) => Promise<void>;
 }
 
@@ -18,6 +14,9 @@ function User({ user, handleDelete }: UserProps): JSX.Element {
         <Typography fontWeight="bold" variant="h5">
           {user.name}
         </Typography>
+        <Typography variant="h5">{user.email}</Typography>
+        <Typography variant="h6">{user.password}</Typography>
+        <Typography variant="h6">{user.id}</Typography>
         <button
           onClick={() => {
             void handleDelete(user.id);
