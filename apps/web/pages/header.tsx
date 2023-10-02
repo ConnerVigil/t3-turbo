@@ -11,12 +11,16 @@ function Header(): JSX.Element {
       {session ? (
         <div>
           Signed in as session <br />
-          <button onClick={() => signOut()}>Sign out</button>
+          <button type="button" onClick={() => signOut()}>
+            Sign out
+          </button>
         </div>
       ) : (
         <div>
           Not signed in <br />
-          <button onClick={() => signIn()}>Sign in</button>
+          <button type="button" onClick={() => signIn()}>
+            Sign in
+          </button>
         </div>
       )}
     </Stack>

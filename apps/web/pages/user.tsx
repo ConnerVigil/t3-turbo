@@ -4,7 +4,7 @@ import React from "react";
 
 interface UserProps {
   user: User;
-  handleDelete: (id: string) => Promise<void>;
+  handleDelete: (id: string) => void;
 }
 
 function User({ user, handleDelete }: UserProps): JSX.Element {
@@ -19,7 +19,7 @@ function User({ user, handleDelete }: UserProps): JSX.Element {
         <Typography variant="h6">{user.id}</Typography>
         <button
           onClick={() => {
-            void handleDelete(user.id);
+            handleDelete(user.id);
           }}
           type="button"
         >

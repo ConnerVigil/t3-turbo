@@ -13,7 +13,7 @@ function UsersPage(): JSX.Element {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleDeleteUser = async (id: string): Promise<void> => {
+  const deleteUser = async (id: string): Promise<void> => {
     try {
       await deleteMutation.mutateAsync({ id });
       void userQuery.refetch();
@@ -22,7 +22,7 @@ function UsersPage(): JSX.Element {
     }
   };
 
-  const handleAddUser = async (): Promise<void> => {
+  const addUser = async (): Promise<void> => {
     try {
       console.log("Adding user...");
       await addMutation.mutateAsync({
@@ -35,6 +35,15 @@ function UsersPage(): JSX.Element {
       console.error("Error adding user:", error);
     }
   };
+
+  function handleAddUser(e: React.FormEvent<HTMLFormElement>): void {
+    e.preventDefault();
+    void addUser();
+  }
+
+  function handleDeleteUser(id: string): void {
+    void deleteUser(id);
+  }
 
   const users = userQuery.data ?? [];
 

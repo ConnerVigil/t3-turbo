@@ -2,13 +2,11 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 
-export default function Register() {
+export default function Register(): JSX.Element {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
+  const register = async (): Promise<void> => {
     const result = await signIn("credentials", {
       username,
       password,
@@ -24,21 +22,29 @@ export default function Register() {
     }
   };
 
+  function handleRegister(): void {
+    void register();
+  }
+
   return (
     <div>
       <h1>Register</h1>
       <form onSubmit={handleRegister}>
         <input
-          type="text"
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
           placeholder="Username"
+          type="text"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
         />
         <input
-          type="password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
           placeholder="Password"
+          type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Register</button>
       </form>
